@@ -1,4 +1,4 @@
-package com.cuztodio.CadastroCRUD;
+package com.cuztodio.CadastroCRUD.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
