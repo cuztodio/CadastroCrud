@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
-
-import java.util.List;
 
 @Entity
 @Table(name = "tb_pessoa")
@@ -22,6 +19,7 @@ public class PessoaModel {
 
     private String nome;
 
+    @Column(unique = true)
     private String email;
 
     private int idade;
