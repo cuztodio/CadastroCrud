@@ -3,7 +3,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pessoa")
-public class Controller {
+public class PessoaController {
 
     @PostMapping("/criar")
     public String criaPessoa(){
