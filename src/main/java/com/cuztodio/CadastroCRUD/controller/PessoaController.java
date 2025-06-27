@@ -1,9 +1,17 @@
 package com.cuztodio.CadastroCRUD.controller;
+import com.cuztodio.CadastroCRUD.model.PessoaModel;
+import com.cuztodio.CadastroCRUD.service.PessoaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/pessoa")
 public class PessoaController {
+
+    @Autowired
+    private PessoaService pessoaService;
 
     @PostMapping("/criar")
     public String criaPessoa(){
@@ -16,8 +24,8 @@ public class PessoaController {
     }
 
     @GetMapping("/buscar/todos")
-    public String exibiPessoas(){
-        return "Pessoas mostradas";
+    public List<PessoaModel> exibiPessoas(){
+        return pessoaService.listarTodos();
     }
 
     @PutMapping("/alterar/{id}")

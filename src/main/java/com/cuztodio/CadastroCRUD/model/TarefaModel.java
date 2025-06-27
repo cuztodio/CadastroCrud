@@ -1,6 +1,7 @@
 package com.cuztodio.CadastroCRUD.model;
 
 import com.cuztodio.CadastroCRUD.enums.Dificuldade;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,5 +25,6 @@ public class TarefaModel {
     private Dificuldade dificuldade;
 
     @OneToMany(mappedBy = "tarefa")
+    @JsonIgnore
     private List<PessoaModel> pessoa;
 }
