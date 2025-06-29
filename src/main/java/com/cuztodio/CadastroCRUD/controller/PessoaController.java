@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/pessoa")
@@ -14,13 +15,14 @@ public class PessoaController {
     private PessoaService pessoaService;
 
     @PostMapping("/criar")
-    public String criaPessoa(){
-        return "Pessoa cadastrada!";
+    public String criaPessoa(@RequestBody PessoaModel pessoaModel){
+        pessoaService.criar(pessoaModel);
+        return "Pessoa criada!";
     }
 
     @GetMapping("/buscar/{id}")
-    public String exibiPessoa(){
-        return "Pessoa mostrada!";
+    public Optional<PessoaModel> exibiPessoa(@PathVariable Long id){
+        return pessoaService.listarPessoa(id);
     }
 
     @GetMapping("/buscar/todos")
