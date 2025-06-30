@@ -31,12 +31,14 @@ public class PessoaController {
     }
 
     @PutMapping("/alterar/{id}")
-    public String alterarPessoa(){
-        return "Pessoa alterada";
+    public String alterarPessoa(@PathVariable Long id, @RequestBody PessoaModel pessoaModel){
+        pessoaService.atualizar(id, pessoaModel);
+        return "Pessoa atualizada!";
     }
 
     @DeleteMapping("/deletar/{id}")
-    public String deletarPessoa(){
-        return "Pessoa deletada";
+    public String deletarPessoa(@PathVariable Long id){
+        pessoaService.delete(id);
+        return "Pessoa deletada!";
     }
 }
