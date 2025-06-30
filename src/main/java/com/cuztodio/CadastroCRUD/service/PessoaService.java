@@ -1,5 +1,7 @@
 package com.cuztodio.CadastroCRUD.service;
 
+import com.cuztodio.CadastroCRUD.dto.PessoaDto;
+import com.cuztodio.CadastroCRUD.mapper.PessoaMapper;
 import com.cuztodio.CadastroCRUD.model.PessoaModel;
 import com.cuztodio.CadastroCRUD.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,13 @@ public class PessoaService {
     @Autowired
     private PessoaRepository pessoaRepository;
 
-    public PessoaModel criar(PessoaModel pessoaModel){
-        return pessoaRepository.save(pessoaModel);
+    @Autowired
+    private PessoaMapper pessoaMapper;
+
+    public PessoaDto criar(PessoaDto pessoaDto){
+        PessoaModel pessoaModel = pessoaMapper.map(pessoaDto);
+        pessoaRepository.save(pessoaModel);
+        return pessoaMapper.map(pessoaModel);
     }
 
     public Optional<PessoaModel> listarPessoa(Long id){

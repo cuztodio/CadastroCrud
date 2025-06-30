@@ -1,4 +1,5 @@
 package com.cuztodio.CadastroCRUD.controller;
+import com.cuztodio.CadastroCRUD.dto.PessoaDto;
 import com.cuztodio.CadastroCRUD.model.PessoaModel;
 import com.cuztodio.CadastroCRUD.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class PessoaController {
     private PessoaService pessoaService;
 
     @PostMapping("/criar")
-    public String criaPessoa(@RequestBody PessoaModel pessoaModel){
-        pessoaService.criar(pessoaModel);
+    public String criaPessoa(@RequestBody PessoaDto pessoaDto){
+        pessoaService.criar(pessoaDto);
         return "Pessoa criada!";
     }
 
