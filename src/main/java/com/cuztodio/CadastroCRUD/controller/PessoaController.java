@@ -1,12 +1,12 @@
 package com.cuztodio.CadastroCRUD.controller;
 import com.cuztodio.CadastroCRUD.dto.PessoaDto;
-import com.cuztodio.CadastroCRUD.model.PessoaModel;
 import com.cuztodio.CadastroCRUD.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/pessoa")
@@ -16,30 +16,45 @@ public class PessoaController {
     private PessoaService pessoaService;
 
     @PostMapping("/criar")
-    public String criaPessoa(@RequestBody PessoaDto pessoaDto){
+    public ResponseEntity<String> criaPessoa(@RequestBody PessoaDto pessoaDto){
         pessoaService.criar(pessoaDto);
-        return "Pessoa criada!";
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("A pessoa foi criada com sucesso!");
     }
 
     @GetMapping("/buscar/{id}")
-    public PessoaDto exibiPessoa(@PathVariable Long id){
-        return pessoaService.listarPessoa(id);
+    public ResponseEntity<PessoaDto> exibiPessoa(@PathVariable Long id){
+
+         if(pessoaService.listarPessoa(id) != null){
+             return ResponseEntity.status(HttpStatus.FOUND).body(pessoaService.listarPessoa(id));
+         }else{
+             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+         }
     }
 
     @GetMapping("/buscar/todos")
-    public List<PessoaDto> exibiPessoas(){
-        return pessoaService.listarTodos();
+    public ResponseEntity<List<PessoaDto>> exibiPessoas(){
+        return ResponseEntity.ok(pessoaService.listarTodos());
     }
 
     @PutMapping("/alterar/{id}")
-    public String alterarPessoa(@PathVariable Long id, @RequestBody PessoaDto pessoaDto){
-        pessoaService.atualizar(id, pessoaDto);
-        return "Pessoa atualizada!";
+    public ResponseEntity<String> alterarPessoa(@PathVariable Long id, @RequestBody PessoaDto pessoaDto){
+
+        if(pessoaService.listarPessoa(id) != null){
+            pessoaService.atualizar(id, pessoaDto);
+            return ResponseEntity.ok().body("Pessoa atualizada com sucesso!");
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pessoa nao encontrada!");
+        }
     }
 
     @DeleteMapping("/deletar/{id}")
-    public String deletarPessoa(@PathVariable Long id){
-        pessoaService.delete(id);
-        return "Pessoa deletada!";
+    public ResponseEntity<String> deletarPessoa(@PathVariable Long id){
+        if(pessoaService.listarPessoa(id) != null){
+            pessoaService.delete(id);
+            return ResponseEntity.ok().body("Pessoa deletada com sucesso!");
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pessoa nao encontrada!");
+        }
     }
 }

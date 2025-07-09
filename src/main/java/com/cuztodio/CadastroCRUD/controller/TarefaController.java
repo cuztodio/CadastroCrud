@@ -1,12 +1,11 @@
 package com.cuztodio.CadastroCRUD.controller;
 
-import com.cuztodio.CadastroCRUD.model.TarefaModel;
+import com.cuztodio.CadastroCRUD.dto.TarefaDto;
 import com.cuztodio.CadastroCRUD.service.TarefaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/tarefa")
@@ -16,24 +15,24 @@ public class TarefaController {
     private TarefaService tarefaService;
 
     @PostMapping("/criar")
-    public String criaTarefa(@RequestBody TarefaModel tarefaModel){
-        tarefaService.criar(tarefaModel);
+    public String criaTarefa(@RequestBody TarefaDto tarefaDto){
+        tarefaService.criarTarefa(tarefaDto);
         return "Tarefa criada!";
     }
 
     @GetMapping("/buscar/{id}")
-    public Optional<TarefaModel> exibiTarefa(@PathVariable Long id){
-        return tarefaService.listarPessoa(id);
+    public TarefaDto exibiTarefa(@PathVariable Long id) {
+        return tarefaService.listarTarefa(id);
     }
 
     @GetMapping("/buscar/todos")
-    public List<TarefaModel> exibiTarefas(){
+    public List<TarefaDto> exibiTarefas() {
         return tarefaService.listarTodos();
     }
 
     @PutMapping("/alterar/{id}")
-    public String alterarTarefa(@PathVariable Long id, @RequestBody TarefaModel tarefaModel){
-        tarefaService.atualizar(id, tarefaModel);
+    public String alterarTarefa(@PathVariable Long id, @RequestBody TarefaDto tarefaDto){
+        tarefaService.atualizar(id, tarefaDto);
         return "Tarefa atualizada!";
     }
 

@@ -1,14 +1,16 @@
 package com.cuztodio.CadastroCRUD.service;
 
+import com.cuztodio.CadastroCRUD.dto.TarefaDto;
+import com.cuztodio.CadastroCRUD.mapper.TarefaMapper;
 import com.cuztodio.CadastroCRUD.model.TarefaModel;
 import com.cuztodio.CadastroCRUD.repository.TarefasRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TarefaService {
@@ -16,28 +18,40 @@ public class TarefaService {
     @Autowired
     private TarefasRepository tarefasRepository;
 
-    public TarefaModel criar(TarefaModel tarefaModel){
-        return tarefasRepository.save(tarefaModel);
+    @Autowired
+    private TarefaMapper tarefaMapper;
+
+    public TarefaDto criarTarefa(TarefaDto tarefaDto){
+        TarefaModel tarefaModel = tarefaMapper.map(tarefaDto);
+        tarefasRepository.save(tarefaModel);
+        return tarefaMapper.map(tarefaModel);
     }
 
-    public Optional<TarefaModel> listarPessoa(Long id){
-        return tarefasRepository.findById(id);
+    public TarefaDto listarTarefa(Long id){
+        Optional<TarefaModel> tarefaModel = tarefasRepository.findById(id);
+        return tarefaModel.map(tarefaMapper::map).orElse(null);
     }
 
-    public List<TarefaModel> listarTodos(){
-        return tarefasRepository.findAll();
+    public List<TarefaDto> listarTodos(){
+        List<TarefaModel> tarefaModels = tarefasRepository.findAll();
+        return tarefaModels.stream()
+                .map(tarefaMapper::map)
+                .collect(Collectors.toList());
     }
 
     public void delete(Long id){
         tarefasRepository.deleteById(id);
     }
 
-    public TarefaModel atualizar(Long id, TarefaModel tarefaModelnovo){
-        if(tarefasRepository.existsById(id)){
-            tarefaModelnovo.setId(id);
-            return tarefasRepository.save(tarefaModelnovo);
-        }else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarefa com ID " + id + " não encontrada");
+    public TarefaDto atualizar(Long id, TarefaDto tarefaDto){
+
+        Optional<TarefaModel> tarefaModel = tarefasRepository.findById(id);
+        if(tarefaModel.isPresent()){
+            TarefaModel tarefaModelNovo = tarefaMapper.map(tarefaDto);
+            tarefasRepository.save(tarefaModelNovo);
+            return tarefaMapper.map(tarefaModelNovo);
+        }else{
+            throw new EntityNotFoundException();
         }
     }
 }

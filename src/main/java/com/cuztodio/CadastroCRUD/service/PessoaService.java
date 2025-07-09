@@ -30,7 +30,7 @@ public class PessoaService {
 
     public PessoaDto listarPessoa(Long id){
         Optional<PessoaModel> pessoaModel = pessoaRepository.findById(id);
-        return pessoaModel.map(pessoaMapper::map).orElse(null);
+        return pessoaModel.map(pessoaMapper::map).orElseThrow(() -> new IllegalArgumentException("Pessoa nao encontrada!"));
     }
 
     public List<PessoaDto> listarTodos(){
