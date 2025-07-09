@@ -22,18 +22,18 @@ public class PessoaController {
     }
 
     @GetMapping("/buscar/{id}")
-    public Optional<PessoaModel> exibiPessoa(@PathVariable Long id){
+    public PessoaDto exibiPessoa(@PathVariable Long id){
         return pessoaService.listarPessoa(id);
     }
 
     @GetMapping("/buscar/todos")
-    public List<PessoaModel> exibiPessoas(){
+    public List<PessoaDto> exibiPessoas(){
         return pessoaService.listarTodos();
     }
 
     @PutMapping("/alterar/{id}")
-    public String alterarPessoa(@PathVariable Long id, @RequestBody PessoaModel pessoaModel){
-        pessoaService.atualizar(id, pessoaModel);
+    public String alterarPessoa(@PathVariable Long id, @RequestBody PessoaDto pessoaDto){
+        pessoaService.atualizar(id, pessoaDto);
         return "Pessoa atualizada!";
     }
 
