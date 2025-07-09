@@ -26,4 +26,7 @@ public class PessoaModel {
     @ManyToOne
     @JoinColumn(name = "tarefa_id")
     private TarefaModel tarefa;
+
+    @Column(name = "profissao")
+    private String profissao;
 }
