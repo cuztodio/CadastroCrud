@@ -5,20 +5,18 @@ import com.cuztodio.CadastroCRUD.mapper.TarefaMapper;
 import com.cuztodio.CadastroCRUD.model.TarefaModel;
 import com.cuztodio.CadastroCRUD.repository.TarefasRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class TarefaService {
 
-    @Autowired
     private TarefasRepository tarefasRepository;
-
-    @Autowired
     private TarefaMapper tarefaMapper;
 
     public TarefaDto criarTarefa(TarefaDto tarefaDto){

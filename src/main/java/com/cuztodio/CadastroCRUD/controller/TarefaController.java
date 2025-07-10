@@ -2,17 +2,17 @@ package com.cuztodio.CadastroCRUD.controller;
 
 import com.cuztodio.CadastroCRUD.dto.TarefaDto;
 import com.cuztodio.CadastroCRUD.service.TarefaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/tarefa")
+@RequiredArgsConstructor
 public class TarefaController {
 
-    @Autowired
-    private TarefaService tarefaService;
+    private final TarefaService tarefaService;
 
     @PostMapping("/criar")
     public String criaTarefa(@RequestBody TarefaDto tarefaDto){

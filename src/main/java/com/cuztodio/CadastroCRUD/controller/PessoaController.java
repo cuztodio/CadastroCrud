@@ -1,7 +1,7 @@
 package com.cuztodio.CadastroCRUD.controller;
 import com.cuztodio.CadastroCRUD.dto.PessoaDto;
 import com.cuztodio.CadastroCRUD.service.PessoaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,10 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/pessoa")
+@RequiredArgsConstructor
 public class PessoaController {
 
-    @Autowired
-    private PessoaService pessoaService;
+    private final PessoaService pessoaService;
 
     @PostMapping("/criar")
     public ResponseEntity<String> criaPessoa(@RequestBody PessoaDto pessoaDto){
