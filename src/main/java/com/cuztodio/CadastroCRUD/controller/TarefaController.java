@@ -3,6 +3,8 @@ package com.cuztodio.CadastroCRUD.controller;
 import com.cuztodio.CadastroCRUD.dto.TarefaDto;
 import com.cuztodio.CadastroCRUD.service.TarefaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,30 +17,45 @@ public class TarefaController {
     private final TarefaService tarefaService;
 
     @PostMapping("/criar")
-    public String criaTarefa(@RequestBody TarefaDto tarefaDto){
+    public ResponseEntity<String> criaTarefa(@RequestBody TarefaDto tarefaDto){
         tarefaService.criarTarefa(tarefaDto);
-        return "Tarefa criada!";
+        return ResponseEntity.status(HttpStatus.CREATED).body("Tarefa criada com sucesso!");
     }
 
     @GetMapping("/buscar/{id}")
-    public TarefaDto exibiTarefa(@PathVariable Long id) {
-        return tarefaService.listarTarefa(id);
+    public ResponseEntity<TarefaDto> exibiTarefa(@PathVariable Long id) {
+        if(tarefaService.listarTarefa(id) != null){
+            return ResponseEntity.status(HttpStatus.FOUND).body(tarefaService.listarTarefa(id));
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/buscar/todos")
-    public List<TarefaDto> exibiTarefas() {
-        return tarefaService.listarTodos();
+    public ResponseEntity<List<TarefaDto>> exibiTarefas() {
+        return ResponseEntity.ok(tarefaService.listarTodos());
     }
 
     @PutMapping("/alterar/{id}")
-    public String alterarTarefa(@PathVariable Long id, @RequestBody TarefaDto tarefaDto){
-        tarefaService.atualizar(id, tarefaDto);
-        return "Tarefa atualizada!";
+    public ResponseEntity<String> alterarTarefa(@PathVariable Long id, @RequestBody TarefaDto tarefaDto){
+
+        if(tarefaService.listarTarefa(id) != null){
+            tarefaService.atualizar(id, tarefaDto);
+            return ResponseEntity.ok().body("Tarefa atualizada com sucesso!");
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarefa nao encontrda!");
+        }
+
     }
 
     @DeleteMapping("/deletar/{id}")
-    public String deletarTarefa(@PathVariable Long id){
-        tarefaService.delete(id);
-        return "Tarefa deletada!";
+    public ResponseEntity<String> deletarTarefa(@PathVariable Long id){
+
+        if(tarefaService.listarTarefa(id) != null){
+            tarefaService.delete(id);
+            return ResponseEntity.ok().body("Tarefa deletada com sucesso!");
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarefa nao encontrada!");
+        }
     }
 }

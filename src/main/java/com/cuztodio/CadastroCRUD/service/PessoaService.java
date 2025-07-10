@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PessoaService {
 
-    private PessoaRepository pessoaRepository;
-    private PessoaMapper pessoaMapper;
+    private final PessoaRepository pessoaRepository;
+    private final PessoaMapper pessoaMapper;
 
     public PessoaDto criar(PessoaDto pessoaDto){
         PessoaModel pessoaModel = pessoaMapper.map(pessoaDto);

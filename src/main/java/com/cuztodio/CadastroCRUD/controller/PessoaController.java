@@ -34,7 +34,8 @@ public class PessoaController {
 
     @GetMapping("/buscar/todos")
     public ResponseEntity<List<PessoaDto>> exibiPessoas(){
-        return ResponseEntity.ok(pessoaService.listarTodos());
+        List<PessoaDto> pessoaDtos = pessoaService.listarTodos();
+        return ResponseEntity.ok(pessoaDtos);
     }
 
     @PutMapping("/alterar/{id}")
